@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="theme-color" content="#080808" />
+  <title>DRIP91 — PRIVATE ARCHIVE</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root{--ink:#070707;--paper:#f1eee7;--red:#b83b2d;--orange:#d75d19}
+    *{box-sizing:border-box} html,body{margin:0;background:var(--ink);color:var(--paper);font-family:Arial,Helvetica,sans-serif;min-height:100%;overflow-x:hidden} body{min-height:100svh}
+    .access{position:relative;min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;padding:18px clamp(18px,3vw,44px) 24px;overflow:hidden;background:#080808}
+    .access:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 70% 18%,rgba(216,94,25,.12),transparent 23%),radial-gradient(circle at 25% 78%,rgba(255,255,255,.07),transparent 20%);filter:blur(20px);animation:drift 12s ease-in-out infinite alternate;pointer-events:none}
+    .access:after{content:"";position:absolute;inset:0;opacity:.20;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+    @keyframes drift{to{transform:translate3d(-3%,2%,0) scale(1.08)}}
+    .access-top,.access-foot{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#aaa}
+    .access-top b{font-size:15px;letter-spacing:-.02em;color:#f3efe8}
+    .access-center{position:relative;z-index:2;display:grid;align-content:center;justify-items:center;text-align:center;padding:9vh 0}
+    .access-word{font-size:clamp(74px,18vw,260px);font-weight:900;line-height:.72;letter-spacing:-.09em;transform:scaleX(1.03);user-select:none}
+    .access-sub{margin-top:26px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#8f8f8f}
+    .gate{width:min(430px,100%);margin-top:48px;display:grid;grid-template-columns:1fr auto;border-bottom:1px solid #3a3a3a;transition:border-color .3s}
+    .gate:focus-within{border-color:#e7e2d9}.gate input{border:0;outline:0;background:transparent;color:#f6f1e9;font-size:14px;padding:15px 0;letter-spacing:.08em;min-width:0}.gate input::placeholder{color:#555}
+    .gate button{appearance:none;border:0;background:transparent;color:#f6f1e9;padding:0 2px 0 18px;font-size:11px;font-weight:800;letter-spacing:.18em;cursor:pointer}
+    .gate button:hover{color:#d75d19}.access-msg{height:18px;margin-top:15px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#777}.access-msg.bad{color:#c85a4d}
+    .entering .access-word{animation:glitchout .55s steps(4,end) both}.entering .gate,.entering .access-sub,.entering .access-top,.entering .access-foot{opacity:0;transition:opacity .3s}
+    @keyframes glitchout{25%{transform:translateX(10px) skewX(-8deg) scaleX(1.05)}50%{transform:translateX(-14px) skewX(12deg) scaleX(.98);filter:blur(1px)}100%{transform:translateY(-50px) scale(1.08);opacity:0}}
+    .loader{position:fixed;inset:0;z-index:100;background:#080808;display:grid;place-items:center;color:#777;font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .25s}.loader.show{opacity:1}
+    @media(max-width:560px){.access{padding:14px 16px 18px}.access-top span:last-child{display:none}.access-word{font-size:clamp(78px,25vw,118px)}.access-center{padding:6vh 0}.gate{margin-top:40px}.access-foot{font-size:8px}.access-foot span:nth-child(2){display:none}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div id="mount">
+    <main class="access" id="access">
+      <header class="access-top"><b>DRIP91</b><span>PRIVATE ARCHIVE / 2026</span><span>UNRELEASED OBJECTS</span></header>
+      <section class="access-center">
+        <div class="access-word">DRIP91</div>
+        <div class="access-sub">Private access / members only</div>
+        <form class="gate" id="gate" autocomplete="off">
+          <input id="password" name="password" type="password" placeholder="ENTER ACCESS CODE" aria-label="Access code" required autofocus />
+          <button type="submit">ENTER ↗</button>
+        </form>
+        <div class="access-msg" id="msg" role="status"></div>
+      </section>
+      <footer class="access-foot"><span>001 / PRIVATE</span><span>KARNAL / INDIA</span><span>GOOD TASTE IS RARE</span></footer>
+    </main>
+  </div>
+  <div class="loader" id="loader">OPENING ARCHIVE</div>
+<script>
+(() => {
+  let ctx, gain, source, decoded, playing = false, loadingAudio = false;
+  const audioApi = {
+    async arm(){
+      if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if(ctx.state === 'suspended') { try{ await ctx.resume(); }catch(e){} }
+      return ctx;
+    },
+    async play(){
+      if(playing) return true;
+      await this.arm();
+      if(!decoded && !loadingAudio){
+        loadingAudio = true;
+        try{
+          const r = await fetch('/audio/background.mp3',{cache:'force-cache'});
+          if(!r.ok) throw new Error('audio unavailable');
+          decoded = await ctx.decodeAudioData(await r.arrayBuffer());
+        } finally { loadingAudio = false; }
+      }
+      if(!decoded) return false;
+      if(source){ try{source.stop()}catch(e){} }
+      source = ctx.createBufferSource();
+      gain = gain || ctx.createGain();
+      gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.34,ctx.currentTime+1.4);
+      source.buffer = decoded; source.loop = true; source.connect(gain); gain.connect(ctx.destination); source.start();
+      playing = true; localStorage.setItem('d91sound','on'); window.dispatchEvent(new Event('d91audiochange')); return true;
+    },
+    stop(){ if(!playing) return; if(gain && ctx){gain.gain.cancelScheduledValues(ctx.currentTime);gain.gain.setTargetAtTime(0.0001,ctx.currentTime,.08);setTimeout(()=>{try{source&&source.stop()}catch(e){} source=null;},350)} playing=false;localStorage.setItem('d91sound','off');window.dispatchEvent(new Event('d91audiochange')); },
+    async toggle(){ if(playing){this.stop(); return false}else{return await this.play()} },
+    get playing(){return playing},
+    get ready(){return !!ctx && ctx.state==='running'}
+  };
+  window.DRIP91_AUDIO = audioApi;
+
+  async function openArchive({fromLogin=false}={}){
+    const loader=document.getElementById('loader'); loader.classList.add('show');
+    try{
+      const res=await fetch('/archive-fragment.html',{cache:'no-store'});
+      if(!res.ok) throw new Error('locked');
+      const html=await res.text();
+      let link=document.querySelector('link[data-site]');
+      if(!link){link=document.createElement('link');link.rel='stylesheet';link.href='/assets/site.css';link.dataset.site='1';document.head.appendChild(link)}
+      document.getElementById('mount').innerHTML=html;
+      document.body.classList.add('archive-open');
+      const s=document.createElement('script');s.src='/assets/site.js';s.defer=true;document.body.appendChild(s);
+      if(fromLogin){ try{await audioApi.play()}catch(e){} }
+      setTimeout(()=>loader.classList.remove('show'),350);
+    }catch(e){ loader.classList.remove('show'); }
+  }
+
+  async function checkSession(){
+    try{const r=await fetch('/api/session',{cache:'no-store'}); if(r.ok){const j=await r.json(); if(j.authenticated){await openArchive(); return true}}}catch(e){}
+    return false;
+  }
+
+  const form=document.getElementById('gate');
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    const input=document.getElementById('password'), msg=document.getElementById('msg');
+    msg.textContent='CHECKING ACCESS'; msg.classList.remove('bad');
+    await audioApi.arm();
+    try{
+      const r=await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:input.value})});
+      if(!r.ok){msg.textContent='ACCESS DENIED';msg.classList.add('bad');input.select();return}
+      document.getElementById('access').classList.add('entering');
+      setTimeout(()=>openArchive({fromLogin:true}),410);
+    }catch(err){msg.textContent='CONNECTION ERROR';msg.classList.add('bad')}
+  });
+  checkSession();
+})();
+</script>
+</body>
+</html>
