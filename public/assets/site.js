@@ -1,6 +1,21 @@
 (() => {
   const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
 
+  // Responsive navigation and section tracking.
+  const menu=$('#menuToggle'), nav=$('#nav'), navLinks=$$('.nav-links a');
+  const closeMenu=()=>{nav.classList.remove('menu-open');menu.setAttribute('aria-expanded','false')};
+  menu.addEventListener('click',()=>{const open=nav.classList.toggle('menu-open');menu.setAttribute('aria-expanded',String(open))});
+  navLinks.forEach(link=>link.addEventListener('click',closeMenu));
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+  const sections=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting)navLinks.forEach(link=>{
+      const active=link.hash==='#'+entry.target.id;
+      link.classList.toggle('active',active);
+      if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');
+    });
+  }),{rootMargin:'-15% 0px -55% 0px'});
+  ['samples','campaign','archive'].forEach(id=>sections.observe(document.getElementById(id)));
+
   // Reveal on scroll
   const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8%'});
   $$('.reveal').forEach(el=>io.observe(el));

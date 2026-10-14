@@ -1,14 +1,16 @@
 <div class="site-shell" id="siteShell">
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" id="cursor"><span>DRAG</span></div>
-  <nav class="nav" id="nav">
+  <nav class="nav" id="nav" aria-label="Main navigation">
     <a class="nav-brand" href="#top" aria-label="DRIP91 home">DRIP91</a>
-    <div class="nav-links"><a href="#samples">SAMPLES</a><a href="#campaign">CAMPAIGN</a><a href="#archive">ARCHIVE</a></div>
+    <div class="nav-links" id="navLinks"><a href="#samples">SAMPLES</a><a href="#campaign">CAMPAIGN</a><a href="#archive">ARCHIVE</a></div>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks">MENU <span>+</span></button>
     <button class="sound" id="soundToggle" type="button">SOUND ON</button>
   </nav>
 
   <main id="top">
     <section class="hero section-black">
+      <div class="hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="hero-meta"><span>PRIVATE ARCHIVE</span><span>D91 / 2026</span><span>UNRELEASED</span></div>
       <h1 class="hero-title" aria-label="DRIP91"><span>DRIP</span><span>91</span></h1>
       <div class="hero-copy"><span>OBJECT 001</span><p>FOR PEOPLE<br>WHO GOT HERE EARLY.</p></div>
@@ -20,6 +22,7 @@
         </div>
         <div class="drag-hint">DRAG TO ROTATE <i></i></div>
       </div>
+      <a class="hero-explore" href="#samples">EXPLORE SAMPLES <span>↗</span></a>
       <div class="hero-foot"><span>FRONT / BACK</span><span>01 — MONEY OVER FRIENDS</span></div>
     </section>
 
