@@ -28,6 +28,16 @@
     .loader{position:fixed;inset:0;z-index:100;background:#080808;display:grid;place-items:center;color:#777;font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .25s}.loader.show{opacity:1}
     @media(max-width:560px){.access{padding:14px 16px 18px}.access-top span:last-child{display:none}.access-word{font-size:clamp(78px,25vw,118px)}.access-center{padding:6vh 0}.gate{margin-top:40px}.access-foot{font-size:8px}.access-foot span:nth-child(2){display:none}}
     @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+    /* Private terminal / matching archive visual language */
+    :root{--ink:#080b0c;--paper:#eef2ec;--orange:#c3f76b}
+    .access{background:radial-gradient(ellipse at 50% 55%,#18201a 0,transparent 58%),#080b0c}
+    .access:before{inset:0;background:linear-gradient(#c3f76b08 1px,transparent 1px),linear-gradient(90deg,#c3f76b08 1px,transparent 1px);background-size:80px 80px;filter:none;animation:drift 18s ease-in-out infinite alternate;mask-image:linear-gradient(transparent,#000,transparent)}
+    .access-top{padding:14px 0;border-bottom:1px solid #ffffff18}.access-top b{color:#c3f76b}
+    .access-center:before{content:'';position:absolute;width:min(70vw,660px);aspect-ratio:1;border:1px solid #c3f76b18;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 100px #c3f76b06,inset 0 0 80px #c3f76b04}
+    .access-word{letter-spacing:-.085em;background:linear-gradient(150deg,#fff 15%,#9aa998 85%);background-clip:text;color:transparent;position:relative}
+    .access-sub{color:#a5b39f;font-size:10px;letter-spacing:.3em}.gate{background:#ffffff05;border:1px solid #ffffff24;border-radius:10px;padding:8px 10px 8px 20px;backdrop-filter:blur(12px)}
+    .gate:focus-within{border-color:#c3f76b}.gate button{background:#c3f76b;color:#11180b;border-radius:6px;padding:0 20px;min-height:46px}.gate button:hover{background:#dbff9e;color:#11180b}.gate input::placeholder{color:#8c9788}.access-foot{border-top:1px solid #ffffff18;padding-top:22px}.loader{background:#080b0c;color:#c3f76b}
+    @media(max-width:560px){.access-top{font-size:8px}.gate{padding-left:12px}.gate button{padding:0 14px}.access-center:before{width:95vw}}
   </style>
 </head>
 <body>
@@ -94,7 +104,11 @@
       document.getElementById('mount').innerHTML=html;
       document.body.classList.add('archive-open');
       const s=document.createElement('script');s.src='/assets/site.js';s.defer=true;document.body.appendChild(s);
-      if(fromLogin){ try{await audioApi.play()}catch(e){} }
+      try{await audioApi.play()}catch(e){}
+      // Resume background autoplay on the first interaction if the browser suspended it.
+      const resumeAudio=async()=>{if(!audioApi.playing || ctx?.state==='suspended'){try{await audioApi.play();await audioApi.arm()}catch(e){}}};
+      document.addEventListener('pointerdown',resumeAudio,{once:true});
+      document.addEventListener('keydown',resumeAudio,{once:true});
       setTimeout(()=>loader.classList.remove('show'),350);
     }catch(e){ loader.classList.remove('show'); }
   }
